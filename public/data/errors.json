@@ -1,0 +1,12 @@
+[
+  { "code": "EADDRINUSE", "title": "端口被占用", "cause": "另一个进程正在使用该端口", "solution": "关闭占用端口的进程或更换端口", "commands": ["lsof -i :<port>", "kill -9 <PID>", "npx kill-port <port>"] },
+  { "code": "ENOENT", "title": "文件或目录不存在", "cause": "路径错误或文件未创建", "solution": "检查路径拼写，确认文件存在", "commands": ["ls -la <path>", "find . -name '<filename>'"] },
+  { "code": "EACCES", "title": "权限不足", "cause": "当前用户没有操作权限", "solution": "使用 sudo 或修改文件权限", "commands": ["sudo <command>", "chmod 755 <file>", "chown $USER <file>"] },
+  { "code": "ECONNREFUSED", "title": "连接被拒绝", "cause": "目标服务未启动或端口不对", "solution": "确认服务已启动，检查端口和地址", "commands": ["curl -v http://localhost:<port>", "netstat -tlnp | grep <port>"] },
+  { "code": "ENOMEM", "title": "内存不足", "cause": "系统或进程内存耗尽", "solution": "增加内存限制或优化内存使用", "commands": ["free -h", "node --max-old-space-size=4096 app.js"] },
+  { "code": "ETIMEDOUT", "title": "连接超时", "cause": "网络不通或目标服务响应过慢", "solution": "检查网络连接和防火墙设置", "commands": ["ping <host>", "traceroute <host>", "curl --connect-timeout 5 <url>"] },
+  { "code": "ERR_MODULE_NOT_FOUND", "title": "模块未找到", "cause": "依赖未安装或路径错误", "solution": "运行 npm install 或检查 import 路径", "commands": ["npm install", "npm ls <package>"] },
+  { "code": "CORS", "title": "跨域请求被阻止", "cause": "服务端未设置 CORS 响应头", "solution": "在服务端添加 Access-Control-Allow-Origin 头", "commands": ["curl -I <url>（检查响应头）"] },
+  { "code": "ERR_OSSL_EVP_UNSUPPORTED", "title": "OpenSSL 不兼容", "cause": "Node.js 17+ 使用了 OpenSSL 3.0", "solution": "设置环境变量或降级 Node.js", "commands": ["export NODE_OPTIONS=--openssl-legacy-provider", "nvm use 16"] },
+  { "code": "EPERM", "title": "操作不允许", "cause": "文件被锁定或权限不足", "solution": "关闭占用文件的程序，或使用管理员权限", "commands": ["sudo <command>", "lsof <file>"] }
+]

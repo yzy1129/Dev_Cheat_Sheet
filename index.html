@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Dev Cheat Sheet - AI 驱动的开发者速查知识系统" />
+  <meta name="keywords" content="开发者,速查表,cheatsheet,命令,代码片段,AI" />
+  <meta property="og:title" content="Dev Cheat Sheet - 开发者速查知识系统" />
+  <meta property="og:description" content="AI 驱动的开发者速查知识系统" />
+  <meta property="og:type" content="website" />
+  <title>Dev Cheat Sheet</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#6366f1" />
+</head>
+<body class="bg-gray-50 text-gray-800 dark:bg-[#0c0c14] dark:text-gray-200 min-h-screen transition-colors duration-300">
+
+  <!-- Sidebar (mobile) -->
+  <div id="sidebar-overlay" class="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm hidden md:hidden transition-opacity" aria-hidden="true"></div>
+  <aside id="sidebar" class="fixed top-0 left-0 z-40 w-72 h-full bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 transform -translate-x-full transition-transform duration-300 md:hidden overflow-y-auto shadow-2xl">
+    <div class="p-5">
+      <h2 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">分类</h2>
+      <div id="sidebar-categories" class="flex flex-col gap-1"></div>
+      <h2 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mt-5 mb-3">标签</h2>
+      <div id="sidebar-tags" class="flex flex-wrap gap-1.5"></div>
+    </div>
+  </aside>
+
+  <!-- Header -->
+  <header class="sticky top-0 z-30 bg-white/85 dark:bg-[#0c0c14]/85 backdrop-blur-xl border-b border-gray-200/60 dark:border-white/5">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-14 flex items-center gap-3">
+      <!-- Mobile menu -->
+      <button id="sidebar-toggle" class="p-2 -ml-2 rounded-xl hover:bg-gray-100 dark:hover:bg-white/5 transition-colors md:hidden" title="菜单">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+
+      <!-- Logo -->
+      <a href="/" class="flex items-center gap-2 shrink-0 group">
+        <span class="text-lg font-black text-indigo-600 dark:text-indigo-400 group-hover:scale-110 transition-transform">&lt;/&gt;</span>
+        <span class="text-base font-bold hidden sm:inline">Dev Cheat Sheet</span>
+      </a>
+
+      <!-- Search -->
+      <div class="relative flex-1 max-w-xl mx-auto">
+        <input id="search-input" type="text" placeholder="搜索命令、标签、内容…"
+          class="w-full h-9 pl-9 pr-16 rounded-xl border border-gray-200 dark:border-white/10 bg-gray-100/80 dark:bg-white/5 focus:bg-white dark:focus:bg-white/10 focus:border-indigo-400 dark:focus:border-indigo-500 focus:outline-none text-sm transition-all duration-200" />
+        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+        </svg>
+        <kbd class="absolute right-3 top-1/2 -translate-y-1/2 px-1.5 py-0.5 text-[10px] font-mono text-gray-400 bg-gray-200/60 dark:bg-white/10 rounded hidden sm:inline-block">/</kbd>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex items-center gap-0.5 shrink-0">
+        <!-- Font size controls -->
+        <div class="hidden sm:flex items-center gap-0 border border-gray-200 dark:border-white/10 rounded-xl overflow-hidden mr-1">
+          <button id="font-decrease" title="缩小字体" class="px-2 h-8 text-xs font-bold text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 transition-colors">A-</button>
+          <span id="font-size-label" class="px-1.5 h-8 flex items-center text-[10px] text-gray-400 border-x border-gray-200 dark:border-white/10 tabular-nums">16</span>
+          <button id="font-increase" title="放大字体" class="px-2 h-8 text-xs font-bold text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 transition-colors">A+</button>
+        </div>
+        <button id="favorites-toggle" title="仅看收藏" class="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-white/5 transition-colors">
+          <svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+          </svg>
+        </button>
+        <button id="theme-toggle" title="切换主题" class="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-white/5 transition-colors">
+          <svg class="w-[18px] h-[18px] hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+          </svg>
+          <svg class="w-[18px] h-[18px] block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Sub-nav: Categories + Tags -->
+  <div class="hidden md:block sticky top-14 z-20 bg-white/85 dark:bg-[#0c0c14]/85 backdrop-blur-xl border-b border-gray-200/60 dark:border-white/5">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 flex items-center gap-3">
+      <nav id="category-nav"><div class="flex gap-1.5 overflow-x-auto"></div></nav>
+      <div class="w-px h-5 bg-gray-200 dark:bg-white/10 shrink-0"></div>
+      <nav id="tag-nav"><div class="flex gap-1.5 overflow-x-auto items-center"></div></nav>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6">
+    <div id="ai-container" class="hidden mb-6"></div>
+    <div id="empty-state" class="hidden text-center py-24">
+      <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gray-100 dark:bg-white/5 mb-4">
+        <svg class="w-8 h-8 text-gray-300 dark:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+      </div>
+      <p class="text-gray-400 dark:text-gray-500">没有找到匹配的内容</p>
+      <p class="text-sm text-gray-300 dark:text-gray-600 mt-1">试试其他关键词，或让 AI 帮你解答</p>
+    </div>
+    <div id="cards-container" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 stagger"></div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-gray-200/60 dark:border-white/5 mt-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-5 text-center text-xs text-gray-400 dark:text-gray-600">
+      Dev Cheat Sheet &copy; 2026 &middot; <kbd class="px-1.5 py-0.5 bg-gray-100 dark:bg-white/5 rounded text-[10px]">?</kbd> 快捷键
+    </div>
+  </footer>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

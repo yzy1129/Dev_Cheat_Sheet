@@ -1,0 +1,115 @@
+[
+  {
+    "id": "git",
+    "title": "Git 常用命令",
+    "category": "Git",
+    "tags": ["git", "版本控制"],
+    "content": "日常开发中最常用的 Git 命令速查",
+    "items": [
+      { "id": "git-init", "cmd": "git init", "desc": "初始化仓库", "tags": ["基础"], "detail": { "usage": "在空目录中初始化一个新的 Git 仓库", "example": "cd my-project && git init", "notes": "会创建 .git 隐藏目录" } },
+      { "id": "git-clone", "cmd": "git clone <url>", "desc": "克隆远程仓库", "tags": ["基础", "高频"], "detail": { "usage": "将远程仓库完整复制到本地", "example": "git clone https://github.com/user/repo.git", "notes": "默认克隆所有分支历史" } },
+      { "id": "git-add", "cmd": "git add .", "desc": "暂存所有更改", "tags": ["基础", "高频"], "detail": { "usage": "将工作区的所有修改添加到暂存区", "example": "git add . 或 git add src/main.js", "notes": "git add -p 可以交互式选择暂存内容" } },
+      { "id": "git-commit", "cmd": "git commit -m \"msg\"", "desc": "提交更改", "tags": ["基础", "高频"], "detail": { "usage": "将暂存区的内容提交到本地仓库", "example": "git commit -m \"feat: 添加搜索功能\"", "notes": "遵循 Conventional Commits 规范" } },
+      { "id": "git-push", "cmd": "git push origin <branch>", "desc": "推送到远程", "tags": ["基础", "高频"], "detail": { "usage": "将本地提交推送到远程仓库", "example": "git push origin main", "notes": "首次推送用 -u 设置上游分支" } },
+      { "id": "git-pull", "cmd": "git pull", "desc": "拉取并合并远程更改", "tags": ["基础", "高频"], "detail": { "usage": "等同于 git fetch + git merge", "example": "git pull origin main", "notes": "建议先 commit 本地更改再 pull" } },
+      { "id": "git-branch", "cmd": "git branch <name>", "desc": "创建新分支", "tags": ["基础"], "detail": { "usage": "基于当前 HEAD 创建新分支", "example": "git branch feature/login", "notes": "git branch -d 删除分支" } },
+      { "id": "git-checkout-b", "cmd": "git checkout -b <name>", "desc": "创建并切换分支", "tags": ["高频"], "detail": { "usage": "创建新分支并立即切换过去", "example": "git checkout -b feature/search", "notes": "等同于 git branch + git checkout" } },
+      { "id": "git-merge", "cmd": "git merge <branch>", "desc": "合并分支", "tags": ["进阶", "面试"], "detail": { "usage": "将指定分支合并到当前分支", "example": "git checkout main && git merge dev", "notes": "冲突时需手动解决后 git add + commit" } },
+      { "id": "git-log", "cmd": "git log --oneline", "desc": "查看简洁提交历史", "tags": ["基础"], "detail": { "usage": "每条提交显示为一行", "example": "git log --oneline --graph --all", "notes": "--graph 显示分支图" } },
+      { "id": "git-stash", "cmd": "git stash", "desc": "暂存当前工作区", "tags": ["进阶", "高频"], "detail": { "usage": "临时保存未提交的修改", "example": "git stash save \"WIP: 搜索功能\"", "notes": "git stash list 查看所有暂存" } },
+      { "id": "git-stash-pop", "cmd": "git stash pop", "desc": "恢复暂存的工作区", "tags": ["进阶", "高频"], "detail": { "usage": "恢复最近一次 stash 并删除记录", "example": "git stash pop", "notes": "git stash apply 恢复但不删除记录" } },
+      { "id": "git-rebase", "cmd": "git rebase <branch>", "desc": "变基（整理提交历史）", "tags": ["进阶", "面试", "易错"], "detail": { "usage": "将当前分支的提交重新应用到目标分支之上", "example": "git rebase main", "notes": "不要在公共分支上 rebase！会改写历史" } },
+      { "id": "git-reset", "cmd": "git reset --hard HEAD~1", "desc": "回退到上一个提交", "tags": ["进阶", "易错"], "detail": { "usage": "丢弃最近一次提交及其更改", "example": "git reset --soft HEAD~1（保留更改到暂存区）", "notes": "--hard 会丢失所有未提交更改，慎用！" } },
+      { "id": "git-cherry-pick", "cmd": "git cherry-pick <hash>", "desc": "摘取指定提交", "tags": ["进阶"], "detail": { "usage": "将其他分支的某个提交应用到当前分支", "example": "git cherry-pick abc1234", "notes": "适合只需要某个 bugfix 而非整个分支" } }
+    ]
+  },
+  {
+    "id": "npm",
+    "title": "npm / pnpm 常用命令",
+    "category": "Node.js",
+    "tags": ["npm", "pnpm", "包管理"],
+    "content": "Node.js 包管理器常用操作",
+    "items": [
+      { "id": "npm-init", "cmd": "npm init -y", "desc": "快速初始化项目", "tags": ["基础"], "detail": { "usage": "生成默认 package.json", "example": "mkdir my-app && cd my-app && npm init -y", "notes": "-y 跳过所有交互式问题" } },
+      { "id": "npm-install", "cmd": "npm install <pkg>", "desc": "安装依赖", "tags": ["基础", "高频"], "detail": { "usage": "安装包到 dependencies", "example": "npm install express", "notes": "简写 npm i" } },
+      { "id": "npm-install-d", "cmd": "npm install -D <pkg>", "desc": "安装开发依赖", "tags": ["基础", "高频"], "detail": { "usage": "安装包到 devDependencies", "example": "npm install -D typescript", "notes": "生产环境不会安装 devDependencies" } },
+      { "id": "npm-run", "cmd": "npm run <script>", "desc": "运行脚本", "tags": ["基础", "高频"], "detail": { "usage": "执行 package.json 中定义的脚本", "example": "npm run dev / npm run build", "notes": "npm start 和 npm test 可省略 run" } },
+      { "id": "npm-outdated", "cmd": "npm outdated", "desc": "检查过期依赖", "tags": ["进阶"], "detail": { "usage": "列出所有可更新的依赖包", "example": "npm outdated", "notes": "npm update 更新到 semver 允许的最新版" } },
+      { "id": "npx", "cmd": "npx <cmd>", "desc": "执行包命令（无需全局安装）", "tags": ["基础", "高频"], "detail": { "usage": "临时下载并执行 npm 包", "example": "npx create-vite my-app", "notes": "npm 5.2+ 自带 npx" } },
+      { "id": "pnpm-add", "cmd": "pnpm add <pkg>", "desc": "pnpm 安装依赖", "tags": ["进阶"], "detail": { "usage": "pnpm 的依赖安装命令", "example": "pnpm add react react-dom", "notes": "pnpm 使用硬链接，节省磁盘空间" } },
+      { "id": "pnpm-dev", "cmd": "pnpm dev", "desc": "启动开发服务器", "tags": ["高频"], "detail": { "usage": "运行 dev 脚本", "example": "pnpm dev", "notes": "等同于 pnpm run dev" } }
+    ]
+  },
+  {
+    "id": "js-array",
+    "title": "JavaScript 数组方法",
+    "category": "JavaScript",
+    "tags": ["js", "数组", "方法"],
+    "content": "常用数组操作方法速查",
+    "items": [
+      { "id": "arr-map", "cmd": "arr.map(fn)", "desc": "映射为新数组", "tags": ["基础", "高频", "面试"], "detail": { "usage": "对每个元素执行函数，返回新数组", "example": "[1,2,3].map(x => x * 2) // [2,4,6]", "notes": "不会修改原数组" } },
+      { "id": "arr-filter", "cmd": "arr.filter(fn)", "desc": "过滤元素", "tags": ["基础", "高频", "面试"], "detail": { "usage": "返回满足条件的元素组成的新数组", "example": "[1,2,3,4].filter(x => x > 2) // [3,4]", "notes": "回调返回 truthy 值的元素被保留" } },
+      { "id": "arr-reduce", "cmd": "arr.reduce(fn, init)", "desc": "累积计算", "tags": ["进阶", "面试"], "detail": { "usage": "将数组归约为单个值", "example": "[1,2,3].reduce((sum, x) => sum + x, 0) // 6", "notes": "init 参数建议始终提供" } },
+      { "id": "arr-find", "cmd": "arr.find(fn)", "desc": "查找第一个匹配元素", "tags": ["基础", "高频"], "detail": { "usage": "返回第一个满足条件的元素", "example": "[1,2,3].find(x => x > 1) // 2", "notes": "未找到返回 undefined" } },
+      { "id": "arr-some", "cmd": "arr.some(fn)", "desc": "是否存在匹配元素", "tags": ["基础"], "detail": { "usage": "至少一个元素满足条件则返回 true", "example": "[1,2,3].some(x => x > 2) // true", "notes": "找到第一个匹配即短路返回" } },
+      { "id": "arr-every", "cmd": "arr.every(fn)", "desc": "是否全部匹配", "tags": ["基础"], "detail": { "usage": "所有元素都满足条件才返回 true", "example": "[1,2,3].every(x => x > 0) // true", "notes": "空数组返回 true" } },
+      { "id": "arr-flat", "cmd": "arr.flat(depth)", "desc": "扁平化数组", "tags": ["进阶"], "detail": { "usage": "将嵌套数组展平指定层级", "example": "[[1,2],[3,[4]]].flat(2) // [1,2,3,4]", "notes": "Infinity 可完全展平" } },
+      { "id": "arr-includes", "cmd": "arr.includes(val)", "desc": "是否包含某值", "tags": ["基础", "高频"], "detail": { "usage": "判断数组是否包含指定值", "example": "[1,2,3].includes(2) // true", "notes": "使用 === 严格比较" } },
+      { "id": "arr-spread", "cmd": "[...arr1, ...arr2]", "desc": "合并数组", "tags": ["基础", "高频"], "detail": { "usage": "展开运算符合并多个数组", "example": "[...[1,2], ...[3,4]] // [1,2,3,4]", "notes": "浅拷贝，不影响原数组" } },
+      { "id": "arr-sort", "cmd": "arr.sort((a,b) => a-b)", "desc": "排序", "tags": ["基础", "易错"], "detail": { "usage": "原地排序数组", "example": "[3,1,2].sort((a,b) => a-b) // [1,2,3]", "notes": "默认按字符串排序！数字必须传比较函数" } }
+    ]
+  },
+  {
+    "id": "css-flex",
+    "title": "CSS Flexbox 速查",
+    "category": "CSS",
+    "tags": ["css", "flexbox", "布局"],
+    "content": "Flexbox 弹性布局核心属性",
+    "items": [
+      { "id": "flex-display", "cmd": "display: flex", "desc": "启用 Flex 容器", "tags": ["基础", "高频"], "detail": { "usage": "将元素设为弹性容器", "example": ".container { display: flex; }", "notes": "inline-flex 为行内弹性容器" } },
+      { "id": "flex-justify", "cmd": "justify-content: center", "desc": "主轴居中", "tags": ["基础", "高频", "面试"], "detail": { "usage": "控制子元素在主轴上的对齐方式", "example": "justify-content: space-between", "notes": "可选值：flex-start/end/center/space-between/around/evenly" } },
+      { "id": "flex-align", "cmd": "align-items: center", "desc": "交叉轴居中", "tags": ["基础", "高频", "面试"], "detail": { "usage": "控制子元素在交叉轴上的对齐方式", "example": "align-items: stretch", "notes": "默认值 stretch 会拉伸子元素" } },
+      { "id": "flex-direction", "cmd": "flex-direction: column", "desc": "纵向排列", "tags": ["基础"], "detail": { "usage": "改变主轴方向", "example": "flex-direction: row-reverse", "notes": "column 时主轴变为垂直方向" } },
+      { "id": "flex-wrap", "cmd": "flex-wrap: wrap", "desc": "允许换行", "tags": ["基础"], "detail": { "usage": "子元素超出容器时自动换行", "example": "flex-wrap: wrap-reverse", "notes": "默认 nowrap 不换行" } },
+      { "id": "flex-gap", "cmd": "gap: 1rem", "desc": "子元素间距", "tags": ["基础", "高频"], "detail": { "usage": "设置子元素之间的间距", "example": "gap: 1rem 2rem（行间距 列间距）", "notes": "替代 margin 方案，更简洁" } },
+      { "id": "flex-1", "cmd": "flex: 1", "desc": "子元素等分空间", "tags": ["高频", "面试"], "detail": { "usage": "flex: 1 等同于 flex: 1 1 0%", "example": ".item { flex: 1; }", "notes": "flex-grow:1 flex-shrink:1 flex-basis:0%" } },
+      { "id": "flex-self", "cmd": "align-self: flex-end", "desc": "单个子元素对齐", "tags": ["进阶"], "detail": { "usage": "覆盖父容器的 align-items 设置", "example": ".special { align-self: center; }", "notes": "只影响当前元素" } }
+    ]
+  },
+  {
+    "id": "shell",
+    "title": "Linux / Shell 常用命令",
+    "category": "终端",
+    "tags": ["linux", "shell", "终端"],
+    "content": "终端环境下常用的文件与系统操作命令",
+    "items": [
+      { "id": "ls", "cmd": "ls -la", "desc": "列出所有文件（含隐藏）", "tags": ["基础", "高频"], "detail": { "usage": "-l 详细列表 -a 显示隐藏文件", "example": "ls -lah（h 人类可读大小）", "notes": "macOS 用 ls -G 彩色输出" } },
+      { "id": "cd", "cmd": "cd <dir>", "desc": "切换目录", "tags": ["基础", "高频"], "detail": { "usage": "改变当前工作目录", "example": "cd ~ 回到主目录 / cd - 回到上一个目录", "notes": "cd .. 返回上级目录" } },
+      { "id": "mkdir", "cmd": "mkdir -p <dir>", "desc": "递归创建目录", "tags": ["基础"], "detail": { "usage": "-p 自动创建不存在的父目录", "example": "mkdir -p src/components/ui", "notes": "目录已存在时不报错" } },
+      { "id": "rm", "cmd": "rm -rf <dir>", "desc": "强制递归删除", "tags": ["基础", "易错"], "detail": { "usage": "-r 递归 -f 强制（不提示确认）", "example": "rm -rf node_modules", "notes": "极其危险！删除后无法恢复，慎用" } },
+      { "id": "cp", "cmd": "cp -r src dest", "desc": "递归复制", "tags": ["基础"], "detail": { "usage": "-r 递归复制目录及其内容", "example": "cp -r src/ backup/", "notes": "目标存在时会覆盖" } },
+      { "id": "mv", "cmd": "mv old new", "desc": "移动/重命名", "tags": ["基础", "高频"], "detail": { "usage": "移动文件或重命名", "example": "mv app.js src/app.js", "notes": "同目录下 mv 就是重命名" } },
+      { "id": "grep", "cmd": "grep -r 'text' .", "desc": "递归搜索文本", "tags": ["高频"], "detail": { "usage": "在文件中搜索匹配的文本", "example": "grep -rn 'TODO' src/", "notes": "-n 显示行号 -i 忽略大小写" } },
+      { "id": "chmod", "cmd": "chmod 755 file", "desc": "修改文件权限", "tags": ["进阶"], "detail": { "usage": "7=rwx 5=r-x 分别对应 owner/group/others", "example": "chmod +x script.sh（添加执行权限）", "notes": "755 常用于脚本和目录" } },
+      { "id": "tail", "cmd": "tail -f log.txt", "desc": "实时查看日志", "tags": ["高频"], "detail": { "usage": "-f 持续监听文件末尾新增内容", "example": "tail -f /var/log/nginx/access.log", "notes": "Ctrl+C 退出" } },
+      { "id": "curl", "cmd": "curl -X GET <url>", "desc": "发送 HTTP 请求", "tags": ["高频"], "detail": { "usage": "命令行 HTTP 客户端", "example": "curl -X POST -H 'Content-Type: application/json' -d '{\"key\":\"val\"}' url", "notes": "-s 静默模式 -o 输出到文件" } }
+    ]
+  },
+  {
+    "id": "vscode",
+    "title": "VS Code 快捷键",
+    "category": "工具",
+    "tags": ["vscode", "快捷键", "编辑器"],
+    "content": "VS Code 高频快捷键（Windows/Mac）",
+    "items": [
+      { "id": "vsc-open", "cmd": "Ctrl+P / Cmd+P", "desc": "快速打开文件", "tags": ["高频"], "detail": { "usage": "按文件名模糊搜索并打开", "example": "输入文件名片段即可匹配", "notes": "加 : 跳转到指定行号" } },
+      { "id": "vsc-palette", "cmd": "Ctrl+Shift+P / Cmd+Shift+P", "desc": "命令面板", "tags": ["高频"], "detail": { "usage": "搜索并执行任意 VS Code 命令", "example": "输入 format 格式化文档", "notes": "几乎所有功能都可通过命令面板访问" } },
+      { "id": "vsc-select", "cmd": "Ctrl+D / Cmd+D", "desc": "选中下一个相同词", "tags": ["高频"], "detail": { "usage": "多光标选中相同文本", "example": "连续按多次选中多个相同词", "notes": "Ctrl+Shift+L 选中所有相同词" } },
+      { "id": "vsc-move", "cmd": "Alt+Up/Down", "desc": "移动当前行", "tags": ["高频"], "detail": { "usage": "将当前行上移或下移", "example": "选中多行后可批量移动", "notes": "Alt+Shift+Up/Down 复制当前行" } },
+      { "id": "vsc-comment", "cmd": "Ctrl+/ / Cmd+/", "desc": "切换行注释", "tags": ["高频"], "detail": { "usage": "注释/取消注释当前行", "example": "选中多行后批量注释", "notes": "Ctrl+Shift+/ 块注释" } },
+      { "id": "vsc-terminal", "cmd": "Ctrl+` / Cmd+`", "desc": "打开终端", "tags": ["高频"], "detail": { "usage": "切换集成终端的显示/隐藏", "example": "Ctrl+Shift+` 新建终端", "notes": "支持多终端标签" } },
+      { "id": "vsc-sidebar", "cmd": "Ctrl+B / Cmd+B", "desc": "切换侧边栏", "tags": ["高频"], "detail": { "usage": "显示/隐藏左侧侧边栏", "example": "编码时隐藏侧边栏获得更多空间", "notes": "" } },
+      { "id": "vsc-rename", "cmd": "F2", "desc": "重命名符号", "tags": ["高频", "进阶"], "detail": { "usage": "重命名变量/函数/类名，自动更新所有引用", "example": "光标放在变量名上按 F2", "notes": "比全局替换更安全" } }
+    ]
+  }
+]

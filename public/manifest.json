@@ -1,0 +1,12 @@
+{
+  "name": "Dev Cheat Sheet",
+  "short_name": "DevCheat",
+  "description": "AI 驱动的开发者速查知识系统",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f9fafb",
+  "theme_color": "#6366f1",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}
