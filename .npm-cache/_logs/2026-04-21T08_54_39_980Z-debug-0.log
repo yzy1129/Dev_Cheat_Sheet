@@ -1,0 +1,30 @@
+0 verbose cli D:\Soft\Node.js\node.exe D:\Soft\Node.js\node_modules\npm\bin\npm-cli.js
+1 info using npm@11.6.2
+2 info using node@v24.13.0
+3 silly config load:file:D:\Soft\Node.js\node_modules\npm\npmrc
+4 silly config load:file:E:\projects\Dev_Cheat_Sheet\.npmrc
+5 silly config load:file:C:\Users\WIN11\.npmrc
+6 silly config load:file:C:\Users\WIN11\AppData\Roaming\npm\etc\npmrc
+7 verbose title npm outdated
+8 verbose argv "outdated" "--cache" ".npm-cache"
+9 verbose logfile logs-max:10 dir:E:\projects\Dev_Cheat_Sheet\.npm-cache\_logs\2026-04-21T08_54_39_980Z-
+10 verbose logfile E:\projects\Dev_Cheat_Sheet\.npm-cache\_logs\2026-04-21T08_54_39_980Z-debug-0.log
+11 silly logfile done cleaning log files
+12 silly packumentCache heap:4496293888 maxSize:1124073472 maxEntrySize:562036736
+13 verbose shrinkwrap failed to load node_modules/.package-lock.json out of date, updated: node_modules
+14 http fetch GET 200 https://registry.npmmirror.com/npm 153ms
+15 http fetch GET 200 https://registry.npmmirror.com/fuse.js 68ms (cache miss)
+16 http fetch GET 200 https://registry.npmmirror.com/@tailwindcss%2fvite 84ms (cache miss)
+17 http fetch GET 200 https://registry.npmmirror.com/vite 108ms (cache miss)
+18 http fetch GET 200 https://registry.npmmirror.com/tailwindcss 150ms (cache miss)
+19 verbose cwd E:\projects\Dev_Cheat_Sheet
+20 verbose os Windows_NT 10.0.26200
+21 verbose node v24.13.0
+22 verbose npm  v11.6.2
+23 notice
+23 notice New minor version of npm available! 11.6.2 -> 11.12.1
+23 notice Changelog: https://github.com/npm/cli/releases/tag/v11.12.1
+23 notice To update run: npm install -g npm@11.12.1
+23 notice  { force: true, Symbol(proc-log.meta): true }
+24 verbose exit 1
+25 verbose code 1

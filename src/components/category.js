@@ -1,23 +1,43 @@
-export function renderCategories(container, categories, activeCategory, onSelect) {
-  container.innerHTML = ''
-  const all = document.createElement('button')
-  all.className = getCategoryClass(activeCategory === null)
-  all.textContent = '全部'
-  all.addEventListener('click', () => onSelect(null))
-  container.appendChild(all)
+import { t, translateCategory } from '../utils/i18n.js'
 
-  categories.forEach(cat => {
-    const btn = document.createElement('button')
-    btn.className = getCategoryClass(activeCategory === cat)
-    btn.textContent = cat
-    btn.addEventListener('click', () => onSelect(cat))
-    container.appendChild(btn)
+export function renderCategories(container, categories, activeCategory, onSelect, counts = {}) {
+  container.innerHTML = ''
+
+  container.appendChild(
+    createCategoryButton(
+      t('filters.all'),
+      null,
+      activeCategory === null,
+      onSelect,
+      Object.values(counts).reduce((sum, count) => sum + count, 0)
+    )
+  )
+
+  categories.forEach(category => {
+    container.appendChild(
+      createCategoryButton(
+        translateCategory(category),
+        category,
+        activeCategory === category,
+        onSelect,
+        counts[category] || 0
+      )
+    )
   })
 }
 
+function createCategoryButton(label, value, active, onSelect, count) {
+  const btn = document.createElement('button')
+  btn.className = getCategoryClass(active)
+  btn.innerHTML = `
+    <span>${label}</span>
+    <span class="${active ? 'filter-chip__count filter-chip__count--active' : 'filter-chip__count'}">${count}</span>
+  `
+  btn.addEventListener('click', () => onSelect(value))
+  return btn
+}
+
 function getCategoryClass(active) {
-  const base = 'px-3.5 py-1.5 text-xs font-medium rounded-xl whitespace-nowrap transition-all duration-200'
-  return active
-    ? `${base} bg-indigo-600 text-white shadow-sm shadow-indigo-500/25`
-    : `${base} bg-gray-100/80 dark:bg-white/5 text-gray-500 dark:text-gray-400 hover:bg-gray-200/80 dark:hover:bg-white/10 hover:text-gray-700 dark:hover:text-gray-200`
+  const base = 'filter-chip'
+  return active ? `${base} filter-chip--active` : `${base} filter-chip--idle`
 }

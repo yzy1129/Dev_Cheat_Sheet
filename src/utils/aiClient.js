@@ -1,3 +1,5 @@
+import { t } from './i18n.js'
+
 const cache = new Map()
 
 export async function queryAIStream(question, onChunk, onDone, onError) {
@@ -17,7 +19,7 @@ export async function queryAIStream(question, onChunk, onDone, onError) {
     })
 
     if (!res.ok) {
-      const err = await res.text().catch(() => 'AI 服务暂不可用')
+      const err = await res.text().catch(() => t('system.aiUnavailable'))
       onError(new Error(err))
       return
     }

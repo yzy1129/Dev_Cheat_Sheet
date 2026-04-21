@@ -1,3 +1,5 @@
+import { getPreferredLocale } from './utils/i18n.js'
+
 const listeners = []
 
 const state = {
@@ -9,6 +11,7 @@ const state = {
   searchQuery: '',
   showFavoritesOnly: false,
   showHistoryOnly: false,
+  locale: getPreferredLocale(),
 }
 
 export function getState() {

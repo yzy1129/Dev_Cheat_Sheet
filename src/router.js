@@ -1,4 +1,5 @@
 import { getState, setState } from './store.js'
+import { DEFAULT_LOCALE, normalizeLocale } from './utils/i18n.js'
 
 export function initRouter() {
   readURL()
@@ -7,13 +8,16 @@ export function initRouter() {
 
 function readURL() {
   const params = new URLSearchParams(window.location.search)
-  const patch = {}
-  if (params.has('category')) patch.activeCategory = params.get('category')
-  if (params.has('tags')) patch.activeTags = params.get('tags').split(',').filter(Boolean)
-  if (params.has('search')) patch.searchQuery = params.get('search')
-  if (params.has('logic')) patch.tagLogic = params.get('logic') === 'AND' ? 'AND' : 'OR'
-  if (params.has('fav')) patch.showFavoritesOnly = params.get('fav') === '1'
-  if (Object.keys(patch).length) setState(patch)
+  const current = getState()
+
+  setState({
+    activeCategory: params.get('category') || null,
+    activeTags: (params.get('tags') || '').split(',').filter(Boolean),
+    searchQuery: params.get('search') || '',
+    tagLogic: params.get('logic') === 'AND' ? 'AND' : 'OR',
+    showFavoritesOnly: params.get('fav') === '1',
+    locale: normalizeLocale(params.get('lang') || current.locale)
+  })
 }
 
 export function syncURL() {
@@ -24,7 +28,8 @@ export function syncURL() {
   if (s.searchQuery) params.set('search', s.searchQuery)
   if (s.tagLogic === 'AND') params.set('logic', 'AND')
   if (s.showFavoritesOnly) params.set('fav', '1')
+  if (s.locale && s.locale !== DEFAULT_LOCALE) params.set('lang', s.locale)
   const qs = params.toString()
-  const url = qs ? `?${qs}` : window.location.pathname
+  const url = qs ? `${window.location.pathname}?${qs}` : window.location.pathname
   history.replaceState(null, '', url)
 }

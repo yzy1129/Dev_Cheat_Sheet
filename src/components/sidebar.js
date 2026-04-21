@@ -7,15 +7,17 @@ export function toggleSidebar() {
   else openSidebar()
 }
 
-function openSidebar() {
+export function openSidebar() {
   sidebar.classList.remove('-translate-x-full')
   sidebar.classList.add('translate-x-0')
   overlay.classList.remove('hidden')
+  document.body.style.overflow = 'hidden'
   overlay.addEventListener('click', closeSidebar, { once: true })
 }
 
-function closeSidebar() {
+export function closeSidebar() {
   sidebar.classList.add('-translate-x-full')
   sidebar.classList.remove('translate-x-0')
   overlay.classList.add('hidden')
+  document.body.style.overflow = ''
 }

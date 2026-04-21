@@ -3,104 +3,221 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Dev Cheat Sheet - AI 驱动的开发者速查知识系统" />
-  <meta name="keywords" content="开发者,速查表,cheatsheet,命令,代码片段,AI" />
-  <meta property="og:title" content="Dev Cheat Sheet - 开发者速查知识系统" />
-  <meta property="og:description" content="AI 驱动的开发者速查知识系统" />
+  <meta name="description" content="Dev Cheat Sheet - 面向开发者的命令、方法与工作流速查工作台" />
+  <meta name="keywords" content="开发者,速查表,cheatsheet,Git,npm,JavaScript,Shell,Windows cmd,AI" />
+  <meta property="og:title" content="Dev Cheat Sheet - 开发者外脑工作台" />
+  <meta property="og:description" content="把常用命令、代码方法与调试知识集中到一个可搜索、可收藏、可快速筛选的工作台。" />
   <meta property="og:type" content="website" />
   <title>Dev Cheat Sheet</title>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="manifest" href="/manifest.json" />
-  <meta name="theme-color" content="#6366f1" />
+  <meta name="theme-color" content="#125d73" />
 </head>
-<body class="bg-gray-50 text-gray-800 dark:bg-[#0c0c14] dark:text-gray-200 min-h-screen transition-colors duration-300">
+<body class="min-h-screen text-slate-800 dark:text-slate-100">
+  <div class="app-backdrop" aria-hidden="true">
+    <div class="backdrop-orb orb-a"></div>
+    <div class="backdrop-orb orb-b"></div>
+    <div class="backdrop-grid"></div>
+    <div class="backdrop-noise"></div>
+  </div>
 
-  <!-- Sidebar (mobile) -->
-  <div id="sidebar-overlay" class="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm hidden md:hidden transition-opacity" aria-hidden="true"></div>
-  <aside id="sidebar" class="fixed top-0 left-0 z-40 w-72 h-full bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 transform -translate-x-full transition-transform duration-300 md:hidden overflow-y-auto shadow-2xl">
+  <div id="sidebar-overlay" class="fixed inset-0 z-40 bg-slate-950/50 backdrop-blur-sm hidden md:hidden transition-opacity" aria-hidden="true"></div>
+  <aside id="sidebar" class="fixed top-0 left-0 z-40 w-80 max-w-[88vw] h-full sidebar-panel transform -translate-x-full transition-transform duration-300 md:hidden overflow-y-auto shadow-2xl">
     <div class="p-5">
-      <h2 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">分类</h2>
-      <div id="sidebar-categories" class="flex flex-col gap-1"></div>
-      <h2 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mt-5 mb-3">标签</h2>
-      <div id="sidebar-tags" class="flex flex-wrap gap-1.5"></div>
+      <div class="mb-5">
+        <p class="text-[10px] font-semibold uppercase tracking-[0.24em] text-[var(--muted-2)]" data-i18n="sidebar.panel">Quick Panel</p>
+        <h2 class="mt-2 text-xl font-semibold text-[var(--text-1)]" data-i18n="sidebar.title">移动筛选面板</h2>
+        <p class="mt-2 text-sm text-[var(--muted-1)]" data-i18n="sidebar.desc">在手机上快速切换分类、标签和当前筛选上下文。</p>
+      </div>
+      <div class="space-y-5">
+        <section>
+          <div class="filter-section-title" data-i18n="filters.category">分类</div>
+          <div id="sidebar-categories" class="flex flex-col gap-2"></div>
+        </section>
+        <section>
+          <div class="filter-section-title" data-i18n="filters.tags">标签</div>
+          <div id="sidebar-tags" class="flex flex-wrap gap-2"></div>
+        </section>
+      </div>
     </div>
   </aside>
 
-  <!-- Header -->
-  <header class="sticky top-0 z-30 bg-white/85 dark:bg-[#0c0c14]/85 backdrop-blur-xl border-b border-gray-200/60 dark:border-white/5">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-14 flex items-center gap-3">
-      <!-- Mobile menu -->
-      <button id="sidebar-toggle" class="p-2 -ml-2 rounded-xl hover:bg-gray-100 dark:hover:bg-white/5 transition-colors md:hidden" title="菜单">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+  <header class="sticky top-0 z-30 app-header">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center gap-3">
+      <button
+        id="sidebar-toggle"
+        class="chrome-btn md:hidden"
+        title="打开筛选面板"
+        aria-label="打开筛选面板"
+        data-i18n-title="controls.toggleSidebar"
+        data-i18n-aria="controls.toggleSidebar"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 6h16M4 12h16M4 18h16"/></svg>
       </button>
 
-      <!-- Logo -->
-      <a href="/" class="flex items-center gap-2 shrink-0 group">
-        <span class="text-lg font-black text-indigo-600 dark:text-indigo-400 group-hover:scale-110 transition-transform">&lt;/&gt;</span>
-        <span class="text-base font-bold hidden sm:inline">Dev Cheat Sheet</span>
+      <a href="/" class="brand-mark shrink-0">
+        <span class="brand-mark__sigil">&lt;/&gt;</span>
+        <span class="hidden sm:block">
+          <span class="brand-mark__title">Dev Cheat Sheet</span>
+          <span class="brand-mark__subtitle" data-i18n="brand.subtitle">Command Intelligence Desk</span>
+        </span>
       </a>
 
-      <!-- Search -->
-      <div class="relative flex-1 max-w-xl mx-auto">
-        <input id="search-input" type="text" placeholder="搜索命令、标签、内容…"
-          class="w-full h-9 pl-9 pr-16 rounded-xl border border-gray-200 dark:border-white/10 bg-gray-100/80 dark:bg-white/5 focus:bg-white dark:focus:bg-white/10 focus:border-indigo-400 dark:focus:border-indigo-500 focus:outline-none text-sm transition-all duration-200" />
-        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+      <div class="relative flex-1 max-w-2xl mx-auto">
+        <input
+          id="search-input"
+          type="text"
+          placeholder="搜索命令、方法、标签、技巧或错误码…"
+          data-i18n-placeholder="search.placeholder"
+          class="search-shell__input"
+        />
+        <svg class="search-shell__icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M21 21l-5.2-5.2m1.8-4.8a7 7 0 11-14 0 7 7 0 0114 0z"/>
         </svg>
-        <kbd class="absolute right-3 top-1/2 -translate-y-1/2 px-1.5 py-0.5 text-[10px] font-mono text-gray-400 bg-gray-200/60 dark:bg-white/10 rounded hidden sm:inline-block">/</kbd>
+        <div class="search-shell__hint">
+          <kbd>/</kbd>
+          <span class="hidden sm:inline" data-i18n="search.hint">聚焦搜索</span>
+        </div>
       </div>
 
-      <!-- Actions -->
-      <div class="flex items-center gap-0.5 shrink-0">
-        <!-- Font size controls -->
-        <div class="hidden sm:flex items-center gap-0 border border-gray-200 dark:border-white/10 rounded-xl overflow-hidden mr-1">
-          <button id="font-decrease" title="缩小字体" class="px-2 h-8 text-xs font-bold text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 transition-colors">A-</button>
-          <span id="font-size-label" class="px-1.5 h-8 flex items-center text-[10px] text-gray-400 border-x border-gray-200 dark:border-white/10 tabular-nums">16</span>
-          <button id="font-increase" title="放大字体" class="px-2 h-8 text-xs font-bold text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 transition-colors">A+</button>
+      <div class="flex items-center gap-1 shrink-0">
+        <div class="hidden sm:flex items-center gap-1 panel-pill mr-1">
+          <button id="font-decrease" title="缩小字体" class="mini-action" data-i18n-title="controls.decreaseFont">A-</button>
+          <span id="font-size-label" class="font-chip tabular-nums">16</span>
+          <button id="font-increase" title="放大字体" class="mini-action" data-i18n-title="controls.increaseFont">A+</button>
         </div>
-        <button id="favorites-toggle" title="仅看收藏" class="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-white/5 transition-colors">
+        <div class="locale-switch" role="group" aria-label="Language switch">
+          <button id="locale-zh" class="locale-switch__btn" type="button">ZH</button>
+          <button id="locale-en" class="locale-switch__btn" type="button">EN</button>
+        </div>
+        <button
+          id="favorites-toggle"
+          title="仅看收藏"
+          class="chrome-btn chrome-btn--icon"
+          aria-label="仅看收藏"
+          data-i18n-title="controls.favoritesOnly"
+          data-i18n-aria="controls.favoritesOnly"
+        >
           <svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
           </svg>
         </button>
-        <button id="theme-toggle" title="切换主题" class="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-white/5 transition-colors">
+        <button
+          id="theme-toggle"
+          title="切换主题"
+          class="chrome-btn chrome-btn--icon"
+          aria-label="切换主题"
+          data-i18n-title="controls.toggleTheme"
+          data-i18n-aria="controls.toggleTheme"
+        >
           <svg class="w-[18px] h-[18px] hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 3v1m0 16v1m9-9h-1M4 12H3m12.95 6.95l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
           </svg>
           <svg class="w-[18px] h-[18px] block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
           </svg>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- Sub-nav: Categories + Tags -->
-  <div class="hidden md:block sticky top-14 z-20 bg-white/85 dark:bg-[#0c0c14]/85 backdrop-blur-xl border-b border-gray-200/60 dark:border-white/5">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 flex items-center gap-3">
-      <nav id="category-nav"><div class="flex gap-1.5 overflow-x-auto"></div></nav>
-      <div class="w-px h-5 bg-gray-200 dark:bg-white/10 shrink-0"></div>
-      <nav id="tag-nav"><div class="flex gap-1.5 overflow-x-auto items-center"></div></nav>
-    </div>
-  </div>
-
-  <!-- Main -->
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6">
-    <div id="ai-container" class="hidden mb-6"></div>
-    <div id="empty-state" class="hidden text-center py-24">
-      <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gray-100 dark:bg-white/5 mb-4">
-        <svg class="w-8 h-8 text-gray-300 dark:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 md:py-8">
+    <section class="hero-grid mb-6 md:mb-7">
+      <div class="hero-panel">
+        <p class="hero-panel__eyebrow" data-i18n="hero.eyebrow">Developer Intelligence Board</p>
+        <h1 class="hero-panel__title" data-i18n="hero.title">把常用命令和方法，折叠成一个真正顺手的工作台。</h1>
+        <p class="hero-panel__desc" data-i18n="hero.desc">集中管理 Git、npm、JavaScript、Shell、Windows cmd 等高频知识，用搜索、筛选、收藏和历史记录把“查资料”缩短成几秒钟。</p>
+        <div class="hero-panel__chips">
+          <span class="hero-chip" data-i18n="hero.chipSearch">/ 聚焦搜索</span>
+          <span class="hero-chip" data-i18n="hero.chipEsc">Esc 一键清空</span>
+          <span class="hero-chip" data-i18n="hero.chipHelp">? 查看快捷键</span>
+          <span class="hero-chip" data-i18n="hero.chipAI">AI 兜底解释</span>
+        </div>
       </div>
-      <p class="text-gray-400 dark:text-gray-500">没有找到匹配的内容</p>
-      <p class="text-sm text-gray-300 dark:text-gray-600 mt-1">试试其他关键词，或让 AI 帮你解答</p>
+
+      <aside class="overview-panel">
+        <div class="overview-panel__head">
+          <div>
+            <p class="overview-panel__label" data-i18n="overview.snapshot">Workspace Snapshot</p>
+            <h2 class="overview-panel__title" data-i18n="overview.title">当前工作台状态</h2>
+          </div>
+          <span class="overview-panel__signal" data-i18n="overview.live">Live</span>
+        </div>
+
+        <div class="stats-grid">
+          <article class="stat-card">
+            <span class="stat-card__label" data-i18n="overview.totalItems">命令总数</span>
+            <strong id="metric-total-items" class="stat-card__value">0</strong>
+          </article>
+          <article class="stat-card">
+            <span class="stat-card__label" data-i18n="overview.visibleItems">当前可见</span>
+            <strong id="metric-visible-items" class="stat-card__value">0</strong>
+          </article>
+          <article class="stat-card">
+            <span class="stat-card__label" data-i18n="overview.groups">知识卡片</span>
+            <strong id="metric-groups" class="stat-card__value">0</strong>
+          </article>
+          <article class="stat-card">
+            <span class="stat-card__label" data-i18n="overview.favorites">我的收藏</span>
+            <strong id="metric-favorites" class="stat-card__value">0</strong>
+          </article>
+        </div>
+
+        <div class="summary-block">
+          <div class="summary-block__top">
+            <div id="results-summary" class="summary-block__text" data-i18n="overview.waiting">等待数据加载…</div>
+            <button id="clear-filters-btn" class="text-button hidden" data-i18n="overview.clearFilters">清空筛选</button>
+          </div>
+          <div id="active-state" class="active-state"></div>
+        </div>
+
+        <div id="recent-panel" class="recent-panel hidden">
+          <div class="recent-panel__title-row">
+            <div>
+              <p class="overview-panel__label" data-i18n="recent.eyebrow">Recent Trail</p>
+              <h3 class="recent-panel__title" data-i18n="recent.title">最近浏览</h3>
+            </div>
+            <span id="metric-history" class="recent-panel__count">0</span>
+          </div>
+          <div id="recent-list" class="recent-panel__list"></div>
+        </div>
+      </aside>
+    </section>
+
+    <div class="hidden md:block sticky top-[4.5rem] z-20 mb-5">
+      <div class="filter-dock">
+        <div class="filter-dock__row">
+          <div class="filter-section-title" data-i18n="filters.category">分类</div>
+          <nav id="category-nav"><div class="filter-dock__chips"></div></nav>
+        </div>
+        <div class="filter-dock__row">
+          <div class="filter-section-title" data-i18n="filters.tags">标签</div>
+          <nav id="tag-nav"><div class="filter-dock__chips filter-dock__chips--align-center"></div></nav>
+        </div>
+      </div>
     </div>
-    <div id="cards-container" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 stagger"></div>
+
+    <div id="ai-container" class="hidden mb-6"></div>
+
+    <div id="empty-state" class="hidden empty-shell">
+      <div class="empty-shell__icon">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M21 21l-5.2-5.2m1.8-4.8a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+      </div>
+      <h2 id="empty-title" class="empty-shell__title" data-i18n="empty.title">没有找到匹配内容</h2>
+      <p id="empty-subtitle" class="empty-shell__desc" data-i18n="empty.desc">试试别的关键词、切换分类标签，或者清空筛选后重新检索。</p>
+      <button id="empty-reset" class="primary-button mt-4" data-i18n="empty.reset">清空当前筛选</button>
+    </div>
+
+    <div id="cards-container" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 md:gap-6 stagger"></div>
   </main>
 
-  <!-- Footer -->
-  <footer class="border-t border-gray-200/60 dark:border-white/5 mt-8">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-5 text-center text-xs text-gray-400 dark:text-gray-600">
-      Dev Cheat Sheet &copy; 2026 &middot; <kbd class="px-1.5 py-0.5 bg-gray-100 dark:bg-white/5 rounded text-[10px]">?</kbd> 快捷键
+  <footer class="app-footer">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs">
+      <span>Dev Cheat Sheet &copy; 2026</span>
+      <span class="flex items-center gap-2">
+        <kbd class="mini-kbd">?</kbd>
+        <span data-i18n="footer.shortcuts">查看快捷键</span>
+      </span>
     </div>
   </footer>
 

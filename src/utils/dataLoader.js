@@ -1,6 +1,14 @@
+import {
+  translateCategory,
+  translateGroupContent,
+  translateGroupTitle,
+  translateTag,
+  t
+} from './i18n.js'
+
 export async function loadCheatsheets() {
   const res = await fetch('/data/cheatsheets.json')
-  if (!res.ok) throw new Error('数据加载失败')
+  if (!res.ok) throw new Error(t('system.dataLoadFailed'))
   const groups = await res.json()
   return normalize(groups)
 }
@@ -19,6 +27,11 @@ function normalize(groups) {
         category: group.category,
         groupId: group.id,
         groupTitle: group.title,
+        groupContent: group.content,
+        searchCategoryEn: translateCategory(group.category, 'en'),
+        searchGroupTitleEn: translateGroupTitle(group.id, group.title, 'en'),
+        searchGroupContentEn: translateGroupContent(group.id, group.content, 'en'),
+        searchTagsEn: (item.tags || []).map(tag => translateTag(tag, 'en'))
       }
       flatItems.push(normalized)
       return normalized

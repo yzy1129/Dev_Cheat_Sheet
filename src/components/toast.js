@@ -9,14 +9,14 @@ function getContainer() {
   return container
 }
 
-export function showToast(message, duration = 2000) {
+export function showToast(message, duration = 1800) {
   const el = document.createElement('div')
-  el.className = 'toast-enter px-4 py-2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-xs font-medium rounded-xl shadow-lg shadow-black/10'
+  el.className = 'toast-pill toast-enter'
   el.textContent = message
   getContainer().appendChild(el)
   setTimeout(() => {
     el.classList.remove('toast-enter')
     el.classList.add('toast-exit')
-    el.addEventListener('animationend', () => el.remove())
+    el.addEventListener('animationend', () => el.remove(), { once: true })
   }, duration)
 }
