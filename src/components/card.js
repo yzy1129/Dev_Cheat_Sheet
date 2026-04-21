@@ -1,10 +1,12 @@
 import { isFavorite, toggleFavorite, addHistory } from '../utils/favorites.js'
 import { copyToClipboard } from '../utils/clipboard.js'
 import {
+  getLocalizedGroupContent,
+  getLocalizedGroupTitle,
+  getLocalizedItemDesc,
+  getLocalizedItemTags,
   t,
   translateCategory,
-  translateGroupContent,
-  translateGroupTitle,
   translateTag
 } from '../utils/i18n.js'
 import { showToast } from './toast.js'
@@ -13,8 +15,8 @@ import { showModal } from './modal.js'
 export function createCard(group, onFavChange) {
   const card = document.createElement('div')
   const tone = groupTones[group.category] || groupTones.default
-  const title = translateGroupTitle(group.id, group.title)
-  const content = translateGroupContent(group.id, group.content)
+  const title = getLocalizedGroupTitle(group)
+  const content = getLocalizedGroupContent(group)
   const category = translateCategory(group.category)
 
   card.className = 'cheat-card card-animate'
@@ -75,7 +77,7 @@ function createItemRow(item, onFavChange) {
   row.className = 'command-row group/item'
 
   const fav = isFavorite(item.id)
-  const tagsHtml = (item.tags || []).slice(0, 2).map(tag => {
+  const tagsHtml = getLocalizedItemTags(item).slice(0, 2).map(tag => {
     const color = tagColors[tag] || 'bg-slate-100 text-slate-500 dark:bg-white/5 dark:text-slate-400'
     return `<span class="command-row__tag ${color}">${esc(translateTag(tag))}</span>`
   }).join('')
@@ -86,7 +88,7 @@ function createItemRow(item, onFavChange) {
         <code class="command-row__cmd">${esc(item.cmd)}</code>
         <div class="flex items-center gap-1.5 shrink-0">${tagsHtml}</div>
       </div>
-      <p class="command-row__desc">${esc(item.desc)}</p>
+      <p class="command-row__desc">${esc(getLocalizedItemDesc(item))}</p>
     </div>
     <div class="command-row__actions md:opacity-0 md:group-hover/item:opacity-100">
       <button class="row-action copy-btn" title="${esc(t('card.copy'))}" aria-label="${esc(t('card.copy'))}">

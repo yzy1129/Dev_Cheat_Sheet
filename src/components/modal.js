@@ -1,8 +1,10 @@
 import { copyToClipboard } from '../utils/clipboard.js'
 import {
+  getLocalizedItemDesc,
+  getLocalizedItemDetail,
+  getLocalizedItemTags,
   t,
   translateCategory,
-  translateGroupTitle,
   translateTag
 } from '../utils/i18n.js'
 import { showToast } from './toast.js'
@@ -18,10 +20,10 @@ export function showModal(item) {
     if (event.target === overlay) closeModal()
   })
 
-  const detail = item.detail || {}
+  const detail = getLocalizedItemDetail(item)
   const eyebrow = item.category
     ? translateCategory(item.category)
-    : translateGroupTitle(item.groupId, item.groupTitle || t('modal.fallbackTitle'))
+    : t('modal.fallbackTitle')
 
   overlay.innerHTML = `
     <div class="modal-card modal-content-enter" id="modal-content">
@@ -29,7 +31,7 @@ export function showModal(item) {
         <div class="min-w-0">
           <p class="modal-card__eyebrow">${escapeHtml(eyebrow || t('modal.fallbackTitle'))}</p>
           <code class="modal-card__command">${escapeHtml(item.cmd)}</code>
-          <p class="modal-card__desc">${escapeHtml(item.desc)}</p>
+          <p class="modal-card__desc">${escapeHtml(getLocalizedItemDesc(item))}</p>
         </div>
         <button id="modal-close" class="modal-icon-btn" aria-label="${escapeHtml(t('modal.close'))}">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M6 18 18 6M6 6l12 12"/></svg>
@@ -37,7 +39,7 @@ export function showModal(item) {
       </div>
 
       <div class="modal-card__meta">
-        ${(item.tags || []).map(tag => `<span class="state-chip">${escapeHtml(translateTag(tag))}</span>`).join('')}
+        ${getLocalizedItemTags(item).map(tag => `<span class="state-chip">${escapeHtml(translateTag(tag))}</span>`).join('')}
       </div>
 
       <div class="modal-card__actions">

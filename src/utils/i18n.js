@@ -486,6 +486,32 @@ export function translateGroupContent(groupId, fallback, locale = getLocale()) {
   return groupTranslations[groupId]?.content || fallback
 }
 
+function getEntityLocale(entity, locale = getLocale()) {
+  if (!entity?.i18n) return null
+  const normalizedLocale = normalizeLocale(locale)
+  return entity.i18n[normalizedLocale] || entity.i18n[DEFAULT_LOCALE] || null
+}
+
+export function getLocalizedGroupTitle(group, locale = getLocale()) {
+  return getEntityLocale(group, locale)?.title || translateGroupTitle(group?.id, group?.title, locale)
+}
+
+export function getLocalizedGroupContent(group, locale = getLocale()) {
+  return getEntityLocale(group, locale)?.content || translateGroupContent(group?.id, group?.content, locale)
+}
+
+export function getLocalizedItemDesc(item, locale = getLocale()) {
+  return getEntityLocale(item, locale)?.desc || item?.desc || ''
+}
+
+export function getLocalizedItemTags(item, locale = getLocale()) {
+  return getEntityLocale(item, locale)?.tags || item?.tags || []
+}
+
+export function getLocalizedItemDetail(item, locale = getLocale()) {
+  return getEntityLocale(item, locale)?.detail || item?.detail || {}
+}
+
 export function applyI18n(root = document, locale = getLocale()) {
   if (!root?.querySelectorAll) return
 

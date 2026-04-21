@@ -1,10 +1,13 @@
-import { t } from './i18n.js'
+import { getLocale, t } from './i18n.js'
 
 const cache = new Map()
 
 export async function queryAIStream(question, onChunk, onDone, onError) {
-  if (cache.has(question)) {
-    onChunk(cache.get(question))
+  const locale = getLocale()
+  const cacheKey = `${locale}::${question}`
+
+  if (cache.has(cacheKey)) {
+    onChunk(cache.get(cacheKey))
     onDone()
     return
   }
@@ -15,12 +18,17 @@ export async function queryAIStream(question, onChunk, onDone, onError) {
     const res = await fetch('/api/ai', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query: question })
+      body: JSON.stringify({ query: question, locale })
     })
 
     if (!res.ok) {
       const err = await res.text().catch(() => t('system.aiUnavailable'))
       onError(new Error(err))
+      return
+    }
+
+    if (!res.body) {
+      onError(new Error(t('system.aiUnavailable')))
       return
     }
 
@@ -35,7 +43,7 @@ export async function queryAIStream(question, onChunk, onDone, onError) {
       onChunk(chunk)
     }
 
-    cache.set(question, fullText)
+    cache.set(cacheKey, fullText)
     onDone()
   } catch (e) {
     onError(e)

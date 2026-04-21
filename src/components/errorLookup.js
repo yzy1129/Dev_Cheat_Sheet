@@ -1,15 +1,42 @@
-import { t } from '../utils/i18n.js'
+import { getLocale, t } from '../utils/i18n.js'
 
 let errorsData = null
 
 async function loadErrors() {
   if (errorsData) return errorsData
+
   try {
-    const response = await fetch('/data/errors.json')
-    errorsData = await response.json()
+    const [zhResponse, enResponse] = await Promise.all([
+      fetch('/data/errors.json'),
+      fetch('/data/errors.en.json')
+    ])
+
+    const [zhErrors, enErrors] = await Promise.all([
+      zhResponse.ok ? zhResponse.json() : [],
+      enResponse.ok ? enResponse.json() : []
+    ])
+
+    const enErrorsByCode = new Map(enErrors.map(error => [error.code, error]))
+
+    errorsData = zhErrors.map(error => ({
+      ...error,
+      i18n: {
+        zh: {
+          title: error.title,
+          cause: error.cause,
+          solution: error.solution
+        },
+        en: {
+          title: enErrorsByCode.get(error.code)?.title || error.title,
+          cause: enErrorsByCode.get(error.code)?.cause || error.cause,
+          solution: enErrorsByCode.get(error.code)?.solution || error.solution
+        }
+      }
+    }))
   } catch {
     errorsData = []
   }
+
   return errorsData
 }
 
@@ -20,6 +47,8 @@ export async function matchError(query) {
 }
 
 export function renderErrorCard(container, error) {
+  const locale = getLocale()
+  const localized = error.i18n?.[locale] || error.i18n?.zh || error
   const card = document.createElement('div')
   card.className = 'error-panel'
   card.innerHTML = `
@@ -31,13 +60,13 @@ export function renderErrorCard(container, error) {
         <p class="overview-panel__label">${t('error.eyebrow')}</p>
         <div class="flex items-center gap-2 mt-1">
           <code class="error-panel__code">${error.code}</code>
-          <span class="error-panel__title">${error.title}</span>
+          <span class="error-panel__title">${localized.title}</span>
         </div>
       </div>
     </div>
     <div class="error-panel__body">
-      <p><span class="error-panel__label-inline">${t('error.cause')}</span>${error.cause}</p>
-      <p><span class="error-panel__label-inline">${t('error.solution')}</span>${error.solution}</p>
+      <p><span class="error-panel__label-inline">${t('error.cause')}</span>${localized.cause}</p>
+      <p><span class="error-panel__label-inline">${t('error.solution')}</span>${localized.solution}</p>
       <div class="space-y-2">
         ${(error.commands || []).map(command => `<code class="error-panel__command">${command}</code>`).join('')}
       </div>

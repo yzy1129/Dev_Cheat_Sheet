@@ -2,20 +2,34 @@ const STORAGE_KEY = 'dev-cheatsheet-fontsize'
 const SIZES = [14, 15, 16, 17, 18]
 const DEFAULT = 16
 
+function readStoredSize() {
+  try {
+    return parseInt(localStorage.getItem(STORAGE_KEY), 10)
+  } catch {
+    return DEFAULT
+  }
+}
+
 export function initFontSize() {
-  const saved = parseInt(localStorage.getItem(STORAGE_KEY))
+  const saved = readStoredSize()
   const size = SIZES.includes(saved) ? saved : DEFAULT
   apply(size)
   return size
 }
 
 export function getFontSize() {
-  return parseInt(localStorage.getItem(STORAGE_KEY)) || DEFAULT
+  return readStoredSize() || DEFAULT
 }
 
 export function setFontSize(size) {
   const clamped = Math.max(SIZES[0], Math.min(SIZES[SIZES.length - 1], size))
-  localStorage.setItem(STORAGE_KEY, clamped)
+
+  try {
+    localStorage.setItem(STORAGE_KEY, String(clamped))
+  } catch {
+    // Ignore storage failures in restricted environments.
+  }
+
   apply(clamped)
   return clamped
 }

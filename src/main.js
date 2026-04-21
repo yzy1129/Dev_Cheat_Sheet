@@ -7,6 +7,7 @@ import { initShortcuts } from './utils/shortcuts.js'
 import { getFavorites, getHistory, addHistory } from './utils/favorites.js'
 import {
   applyI18n,
+  getLocalizedItemDesc,
   setLocale,
   t,
   translateCategory,
@@ -124,7 +125,7 @@ loadCheatsheets()
   })
 
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js')
+  navigator.serviceWorker.register('/sw.js', { updateViaCache: 'none' })
 }
 
 function initializeLocale() {
@@ -246,7 +247,7 @@ function renderRecent(items) {
     .map(item => `
       <button class="recent-chip" data-id="${escapeHtml(item.id)}" title="${escapeHtml(item.cmd)}">
         <span class="recent-chip__cmd">${escapeHtml(item.cmd)}</span>
-        <span class="recent-chip__desc">${escapeHtml(item.desc)}</span>
+        <span class="recent-chip__desc">${escapeHtml(getLocalizedItemDesc(item))}</span>
       </button>
     `)
     .join('')

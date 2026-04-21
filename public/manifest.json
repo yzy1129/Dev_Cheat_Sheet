@@ -1,11 +1,14 @@
 {
   "name": "Dev Cheat Sheet",
   "short_name": "DevCheat",
-  "description": "AI 驱动的开发者速查知识系统",
+  "description": "可搜索、可收藏、可双语切换的开发者速查知识系统",
+  "lang": "zh-CN",
+  "scope": "/",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#f9fafb",
-  "theme_color": "#6366f1",
+  "background_color": "#f4efe7",
+  "theme_color": "#125d73",
+  "categories": ["developer", "productivity", "education"],
   "icons": [
     { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
   ]

@@ -11,7 +11,11 @@ function load() {
 }
 
 function save(data) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
+  } catch {
+    // Ignore storage failures in private or restricted contexts.
+  }
 }
 
 export function getFavorites() {

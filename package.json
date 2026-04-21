@@ -4,14 +4,24 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "dev": "vite --configLoader native",
+    "build": "vite build --configLoader native",
+    "preview": "vite preview --configLoader native",
+    "lint": "eslint . --cache --cache-location .eslintcache",
+    "test": "vitest run --configLoader runner --pool threads",
+    "test:watch": "vitest --configLoader runner --pool threads",
+    "check": "npm run lint && npm run test && npm run build",
+    "push:gitee": "node scripts/push-remotes.mjs --only=gitee",
+    "push:all": "node scripts/push-remotes.mjs"
   },
   "devDependencies": {
-    "@tailwindcss/vite": "^4.2.2",
-    "tailwindcss": "^4.2.2",
-    "vite": "^8.0.8"
+    "@eslint/js": "^10.0.1",
+    "@tailwindcss/vite": "^4.2.3",
+    "eslint": "^10.2.1",
+    "globals": "^17.5.0",
+    "tailwindcss": "^4.2.3",
+    "vite": "^8.0.9",
+    "vitest": "^4.1.4"
   },
   "dependencies": {
     "fuse.js": "^7.3.0"
